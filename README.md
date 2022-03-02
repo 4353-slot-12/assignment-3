@@ -18,7 +18,7 @@ Open a terminal or command prompt and navigate to your desired directory (for ex
 cd path/to/file
 ```
 
-When you run the command below, you will create a folder (named "assignment-2") containing the project in your desired directory.
+When you run the command below, you will create a folder (named "assignment-3") containing the project in your desired directory.
 
 ```
 git clone https://github.com/4353-slot-12/assignment-3.git
