@@ -16,6 +16,6 @@ router.get('/logout', (req, res) => {
 })
 
 // route for demonstrating unit tests.
-router.get('/sample', SampleService.getSample)
+router.post('/sample', SampleService.echoMessage)
 
 export default router;
