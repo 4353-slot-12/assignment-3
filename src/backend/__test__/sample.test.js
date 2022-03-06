@@ -8,7 +8,7 @@ test('jest + supertest sample', async () => {
     const res = await request(app).post('/api/sample').send(payload);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ echo: body.message });
+    expect(res.body).toEqual({ echo: payload.message });
 });
 
 
