@@ -43,18 +43,18 @@
         <div class="container">
             <section>
                 <form action="api/profile" , method="POST">
-                    <label for="username_field">Username:</label>
-                    <input id="username_field" type="text" , maxlength="50" />
+                    <label for="username">Username:</label>
+                    <input id="username" name="username" type="text" maxlength="50" />
                     <br /><br />
-                    <label for="password_field">Password:</label>
+                    <label for="password">Password:</label>
                     <input
-                        id="password_field"
+                        id="password"
+                        name="password"
                         type="password"
-                        ,
                         maxlength="50"
                     />
                     <br /><br />
-                    <input type="submit" , value="Log In" />
+                    <input type="submit" value="Log In" />
                 </form>
                 <div class="center">
                     <a href="register">Create a new account</a>
