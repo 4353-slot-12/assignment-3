@@ -4,7 +4,7 @@ import SampleService from '../services/sample';
 
 
 test('jest + supertest sample', async () => {
-    const payload = { message: 'Hello Jest!' }
+    const payload = { message: 'Hello from Jest!' }
     const res = await request(app).post('/api/sample').send(payload);
 
     expect(res.statusCode).toBe(200);
@@ -28,7 +28,7 @@ test('jest only sample', () => {
 
     const req = {
         body: {
-            message: 'Hello Jest!'
+            message: 'Hello from Jest!'
         }
     };
 
