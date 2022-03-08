@@ -55,8 +55,31 @@ test("insert user test", () => {
     )
 })
 
-test("find user by username", () => {
-    UserService.insertUser("bob", "keyboardCat");
-    const user = UserService.findUsername("bob");
-    expect(user).toMatchObject({ username: "bob" });
+describe("find user by username", () => {
+    beforeEach(() => {
+        // Clears users array.
+        users.length = 0;
+    })
+
+    test("by username, success", () => {
+        UserService.insertUser("bob", "keyboardCat");
+        const user = UserService.findByUsername("bob");
+        expect(user).toMatchObject({ username: "bob" });
+    })
+
+    test("by username, failure", () => {
+        const user = UserService.findByUsername("doesNotExist");
+        expect(user).toBe(undefined);
+    })
+
+    test("by id, success", () => {
+        UserService.insertUser("bob", "keyboardCat");
+        const user = UserService.findById(users[0].id);
+        expect(user).toMatchObject({ username: "bob" });
+    })
+
+    test("by id, failure", () => {
+        const user = UserService.findById("doesNotExist");
+        expect(user).toBe(undefined);
+    })
 })
