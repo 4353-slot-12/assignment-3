@@ -1,4 +1,4 @@
-import UserService from '../services/user.js';
+import UserService, { users } from '../services/user.js';
 
 test('salt generates correctly', () => {
     const salt = UserService.generateSalt();
@@ -45,3 +45,18 @@ describe('verify password tests', () => {
         expect(result).toBe(false);
     })
 });
+
+test("insert user test", () => {
+    UserService.insertUser("bob", "keyboardCat");
+    expect(users).toEqual(
+        expect.arrayContaining([
+            expect.objectContaining({ username: 'bob' }),
+        ])
+    )
+})
+
+test("find user by username", () => {
+    UserService.insertUser("bob", "keyboardCat");
+    const user = UserService.findUsername("bob");
+    expect(user).toMatchObject({ username: "bob" });
+})
