@@ -41,7 +41,7 @@ describe('verify password tests', () => {
             salt: salt
         }
 
-        const result = UserService.verifyPassword(user, 'keyboardDog');
+        const result = UserService.verifyPassword(user, 'wrongPassword');
         expect(result).toBe(false);
     })
 });
