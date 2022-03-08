@@ -1,6 +1,7 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import crypto from 'crypto';
+import UserService from '../services/user.js';
 
 passport.use(new LocalStrategy(function verify(username, password, callback) {
   const user = UserService.findUsername(username);
@@ -17,12 +18,13 @@ passport.use(new LocalStrategy(function verify(username, password, callback) {
 
 passport.serializeUser(function(user, callback) {
   process.nextTick(function() {
-    callback(null, { id: user.id, username: user.username });
+    callback(null, user.id);
   });
 });
 
-passport.deserializeUser(function(user, callback) {
+passport.deserializeUser(function(userId, callback) {
   process.nextTick(function() {
+    const user = UserService.findById(userId);
     return callback(null, user);
   });
 });

@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 export const users = [];
 
-export function generatePass(password, salt) {
+export function generateHash(password, salt) {
     return crypto.pbkdf2Sync(password, salt, 10000, 32, 'sha256').toString('hex');
 }
 
@@ -15,18 +15,16 @@ export function generateUserId() {
 }
 
 export function findUsername(username) {
-    for (const user of users) {
-        console.log(`user = ${user}`)
-        if (user.username == username) {
-            console.log('user found')
-            return user;
-        }
-    }
+    return users.find(user => user.username === username);
+}
+
+export function findById(id) {
+    return users.find(user => user.id === id);
 }
 
 export function insertUser(username, password) {
     const salt = generateSalt();
-    const hash = generatePass(password, salt);
+    const hash = generateHash(password, salt);
     const newUser = {
         id: generateUserId(),
         username: username,
@@ -38,14 +36,10 @@ export function insertUser(username, password) {
     console.log(`Existing users: ${users}`);
 }
 
-export function verifyPassword(username, givenPassword) {
-    const user = findUsername(username);
-    if (user === undefined) 
-        return false;
-
-    const givenHash = generatePass(givenPassword, user.salt);
+export function verifyPassword(user, password) {
+    const givenHash = generateHash(password, user.salt);
     if (givenHash === user.hash) {
-        console.log(`User ${username} gave the correct password.`);
+        console.log(`User ${user.username} gave the correct password.`);
         return true;
     }
     return false;
@@ -53,7 +47,7 @@ export function verifyPassword(username, givenPassword) {
 
 export default {
     users,
-    generatePass,
+    generateHash,
     generateSalt,
     generateUserId,
     verifyPassword,
