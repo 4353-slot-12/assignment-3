@@ -55,6 +55,7 @@ test("insert user test", () => {
     )
 })
 
+
 describe("find user by username", () => {
     beforeEach(() => {
         // Clears users array.
