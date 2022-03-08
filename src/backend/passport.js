@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import UserService from '../services/user.js';
+import UserService from './services/user.js';
 
 
 function verifyCallback(username, password, done) {

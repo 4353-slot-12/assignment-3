@@ -6,6 +6,8 @@ import UserService from '../services/user.js';
 
 const router = Router();
 
+const validationRegex = /^\w+$/i;
+
 router.post('/login', passport.authenticate('local', {
     successReturnToOrRedirect: '/quote',
     failureRedirect: '/login',
@@ -20,7 +22,10 @@ router.post('/logout', (req, res) => {
 router.post('/register', (req, res, next) => {
     const username = req.username;
     const password = req.password;
-    // Validate username & password here.
+    if (!validationRegex.test(username) || !validationRegex.test(password)) {
+        res.status(428).send({ message: 'Bad username or password.'});
+        return;
+    }
     if (UserService.findUser(username) != undefined) {
         res.status(401).send({ message: 'User already exists.' })
         return;

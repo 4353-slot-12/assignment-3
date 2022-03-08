@@ -15,7 +15,7 @@ export default class UserService {
         return crypto.randomBytes(12).toString('hex');
     }
 
-    static findUsername(username) {
+    static findByUsername(username) {
         return users.find(user => user.username === username);
     }
 
@@ -32,8 +32,8 @@ export default class UserService {
             salt: salt,
         };
         users.push(newUser);
-        console.log(`New user created: ${JSON.stringify(newUser)}`);
-        console.log(`Existing users: ${users}`);
+        console.log(`-- NEW USER -- \n${JSON.stringify(newUser, null, 4)}`);
+        console.log(`-- USERS -- \n${JSON.stringify(users, null, 4)}`);
     }
 
     static verifyPassword(user, password) {
