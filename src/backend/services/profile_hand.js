@@ -17,6 +17,13 @@ export class Profile{
 export const profiles = [];
 
 export default class ProfileService {    
+
+    constructor(){
+        while(profiles.length > 0){
+            profiles.pop();
+        }
+    }
+
     addProfile(profile){
         profiles.push(profile)
     }
@@ -25,16 +32,8 @@ export default class ProfileService {
         return profiles.find(p => p.id === id)
     }
 
-    updateProfile(profile){ // Call using a Profile object
-        for(let i = 0; i < profiles.length; i++){ 
-            if(profile.id == id){
-                profiles[i].update(profile.name, profile.addr1, profile.addr2, profile.city, profile.state, profile.zip);
-            }
-        }
-    }
-
-    clearProfiles(){
-        profiles = []
-        return profiles
+    updateProfile(id, profile){ // Call using a Profile object
+        let selected = profiles.find(p => p.id === id);
+        selected.update(profile.name, profile.address1, profile.address2, profile.city, profile.state, profile.zip);
     }
 }
