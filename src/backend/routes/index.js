@@ -3,7 +3,7 @@ import SampleService from '../services/sample.js';
 import ProfileService from '../services/profile_hand.js';
 
 const router = Router();
-let profiles = new ProfileService();
+let profile_service = new ProfileService();
 
 router.post('/account', (req, res) => {
     res.status(201).redirect('/proto-profile');
@@ -19,20 +19,23 @@ router.post('/profile', (req, res) => {
 })
 
 router.get('/profile/:id', (req, res) => {
-    res.status(200);
-    //res.send(profile_list.getProfile(req.params.id));
-    res.send(null);
+    let prof = profile_service.getProfile(req.params.id);
+    if(prof === null){
+        res.status(404).send(null);
+    }else{
+        res.status(200).send(prof);
+    }
 })
 
 router.post('/profile/:id', (req, res) => {
-    //profile = req.body.object;
-    //profile.id = req.params.id;
-    //profile.update(profile);
+    let profile = req.body.object;
+    profile_service.update(req.params.id, profile);
     res.status(200);
+    res.send();
 })
 
 router.put('/profile', (req, res) => {
-    //profile_list.addProfile(res.body.object)
+    profile_service.addProfile(req.body.object)
     res.status(200);
     res.send();
 })
