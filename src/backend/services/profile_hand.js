@@ -1,7 +1,8 @@
 export class Profile{
-    constructor(id, name, addr1, addr2, city, state, zip){
+    constructor(id, name, addr1, addr2, city, state, zip, userId){
         this.id = id
         this.update(name, addr1, addr2, city, state, zip)
+        this.userId = userId
     }
 
     update(name, addr1, addr2, city, state, zip){
