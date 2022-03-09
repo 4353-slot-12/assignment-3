@@ -4,7 +4,6 @@ import { Profile } from '../services/profile_hand.js';
 import ProfileService from '../services/profile_hand.js';
 import { profiles } from '../services/profile_hand.js';
 
-
 test('Add profile', async () => {
     let service = new ProfileService();
 
@@ -44,7 +43,7 @@ test('GET api/profile/:id', async () => {
     const res = await request(app).get("/api/profile/:12")
 
     expect(res.statusCode).toEqual(200);
-    expect(res).toContainEqual(payload);
+    expect(JSON.parse(res.text)).toEqual(payload);
 });
 
 test('POST api/profile/:id', async () => {
@@ -53,17 +52,17 @@ test('POST api/profile/:id', async () => {
     
     profiles.push(payload1)
     
-    const res = await request(app).post("/api/profile/:17").send(payload2);
+    const res = await request(app).post("/api/profile/:17").send({profile: JSON.stringify(payload2)});
 
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(202);
     expect(profiles).toContainEqual(payload2);
 });
 
 test('PUT api/profile', async () => {
     let payload = new Profile(12, "a", "b", "c", "d", "e", "f");
     
-    const res = await request(app).put("/api/profile").send(payload);
+    const res = await request(app).put("/api/profile").send({profile: JSON.stringify(payload)});
 
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(201);
     expect(profiles).toContainEqual(payload);
 });

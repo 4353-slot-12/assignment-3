@@ -19,24 +19,26 @@ router.post('/profile', (req, res) => {
 })
 
 router.get('/profile/:id', (req, res) => {
-    let prof = profile_service.getProfile(req.params.id);
-    if(prof === null){
+    let id = parseInt(req.params.id.slice(1))
+    let prof = profile_service.getProfile(id);
+    if(prof === undefined){
         res.status(404).send(null);
     }else{
-        res.status(200).send(prof);
+        res.status(200).send(JSON.stringify(prof));
     }
 })
 
 router.post('/profile/:id', (req, res) => {
-    let profile = req.body.object;
-    profile_service.update(req.params.id, profile);
-    res.status(200);
+    let profile = JSON.parse(req.body.profile);
+    let id = parseInt(req.params.id.slice(1))
+    profile_service.updateProfile(id, profile);
+    res.status(202);
     res.send();
 })
 
 router.put('/profile', (req, res) => {
-    profile_service.addProfile(req.body.object)
-    res.status(200);
+    profile_service.addProfile(JSON.parse(req.body.profile))
+    res.status(201);
     res.send();
 })
 

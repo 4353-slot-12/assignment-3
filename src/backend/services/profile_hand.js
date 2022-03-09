@@ -4,6 +4,10 @@ export class Profile{
         this.update(name, addr1, addr2, city, state, zip)
     }
 
+    copy(){
+        return new Profile(this.id, this.name, this.address1, this.address2, this.city, this.state, this.zip)
+    }
+
     update(name, addr1, addr2, city, state, zip){
         this.name = name
         this.address1 = addr1
@@ -25,7 +29,7 @@ export default class ProfileService {
     }
 
     addProfile(profile){
-        profiles.push(profile)
+        profiles.push(profile.copy())
     }
 
     getProfile(id){ 
@@ -36,4 +40,5 @@ export default class ProfileService {
         let selected = profiles.find(p => p.id === id);
         selected.update(profile.name, profile.address1, profile.address2, profile.city, profile.state, profile.zip);
     }
+
 }
