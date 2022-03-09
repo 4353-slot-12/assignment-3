@@ -4,7 +4,7 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import session from 'express-session';
-import passport from './routes/passport.js'
+import passport from './passport.js'
 import router from './routes/index.js';
 import authRouter from './routes/auth.js';
 

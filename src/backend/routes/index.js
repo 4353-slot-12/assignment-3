@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import SampleService from '../services/sample.js';
+import UserService from '../services/user.js';
+import passport from 'passport';
 
 const router = Router();
 
@@ -11,11 +12,34 @@ router.post('/profile', (req, res) => {
     res.status(308).redirect('/quote');
 })
 
-router.get('/logout', (req, res) => {
-    res.status(308).redirect('/login');
+
+const wordyRegex = /^\w+$/i;
+
+router.post('/login', passport.authenticate('local', {
+    successReturnToOrRedirect: '/quote',
+    failureRedirect: '/login',
+    failureMessage: true
+}));
+
+router.post('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+
+router.post('/register', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if (!wordyRegex.test(username) || !wordyRegex.test(password)) {
+        res.status(428).send({ message: 'Bad username or password.'});
+        return;
+    }
+    if (UserService.findByUsername(username) != undefined) {
+        res.status(401).send({ message: 'User already exists' })
+        return;
+    }
+    UserService.insertUser(username, password);
+    res.status(201).send({ redirect: '/proto-profile' });
 })
 
-// route for demonstrating unit tests.
-router.post('/sample', SampleService.echoMessage)
 
 export default router;

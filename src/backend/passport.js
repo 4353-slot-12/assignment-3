@@ -12,7 +12,6 @@ function verifyCallback(username, password, done) {
   return done(null, false, { message: "Bad password" });
 };
 
-
 const strategy = new LocalStrategy(verifyCallback);
 passport.use(strategy);
 
