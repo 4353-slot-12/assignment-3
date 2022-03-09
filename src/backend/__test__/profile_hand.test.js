@@ -46,6 +46,12 @@ test('GET api/profile/:id', async () => {
     expect(JSON.parse(res.text)).toEqual(payload);
 });
 
+test('GET invalid api/profile/:id', async () => {
+    const res = await request(app).get("/api/profile/:45269646")
+
+    expect(res.statusCode).toEqual(404);
+});
+
 test('POST api/profile/:id', async () => {
     let payload1 = new Profile(17, "a", "b", "c", "d", "e", "f")
     let payload2 = new Profile(17, "e", "b", "q", "d", "Z", "f")
