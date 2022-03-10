@@ -5,6 +5,8 @@ import SampleService from '../services/sample.js';
 import ProfileService from '../services/profile_hand.js';
 
 const router = Router();
+
+const wordyRegex = /^\w+$/i;
 let profile_service = new ProfileService();
 
 router.post('/account', (req, res) => {
@@ -20,8 +22,6 @@ router.post('/profile', (req, res) => {
     res.status(308).redirect('/quote');
 })
 
-
-const wordyRegex = /^\w+$/i;
 
 router.post('/login', passport.authenticate('local', {
     successReturnToOrRedirect: '/quote',
