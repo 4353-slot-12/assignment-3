@@ -38,7 +38,7 @@ router.post('/register', (req, res) => {
         return;
     }
     UserService.insertUser(username, password);
-    res.status(201).send({ redirect: '/proto-profile' });
+    res.status(201).redirect('/proto-profile');
 })
 
 
