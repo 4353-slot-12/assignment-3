@@ -32,8 +32,6 @@ export default class UserService {
             salt: salt,
         };
         users.push(newUser);
-        console.log(`-- NEW USER -- \n${JSON.stringify(newUser, null, 4)}`);
-        console.log(`-- USERS -- \n${JSON.stringify(users, null, 4)}`);
     }
 
     static verifyPassword(user, password) {
