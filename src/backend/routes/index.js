@@ -67,8 +67,6 @@ router.post('/quote', (req, res) => {
         quote_service.addQuote(tmpQuote)
         res.status(201).send();
     }
-    // console.log(deliveryDate.toISOString());
-    // res.status(200).send();
 })
 
 // route for demonstrating unit tests.
