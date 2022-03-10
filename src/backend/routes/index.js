@@ -21,15 +21,19 @@ router.post('/login', passport.authenticate('local', {
     failureMessage: true
 }));
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
 
+// WORKS!
 router.post('/register', (req, res) => {
+    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
-    if (!wordyRegex.test(username) || !wordyRegex.test(password)) {
+    const confirmPassword = req.body.confirmPassword;
+    
+    if (!wordyRegex.test(username) || !wordyRegex.test(password) || password != confirmPassword) {
         res.status(428).send({ message: 'Bad username or password.'});
         return;
     }
@@ -38,7 +42,7 @@ router.post('/register', (req, res) => {
         return;
     }
     UserService.insertUser(username, password);
-    res.status(201).redirect('/proto-profile');
+    res.redirect('/proto-profile');
 })
 
 

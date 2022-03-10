@@ -6,7 +6,7 @@ import UserService from './services/user.js';
 function verifyCallback(username, password, done) {
   const user = UserService.findByUsername(username);
   if (user === undefined) return done("User does not exist");
-
+  
   const hash = UserService.generateHash(password, user.salt);
   if (hash === user.hash) return done(null, user);
   return done(null, false, { message: "Bad password" });

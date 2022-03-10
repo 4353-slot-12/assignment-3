@@ -28,7 +28,7 @@ export default class UserService {
         const newUser = {
             id: UserService.generateUserId(),
             username: username,
-            password: UserService.generateHash(password, salt),
+            hash: UserService.generateHash(password, salt),
             salt: salt,
         };
         users.push(newUser);
