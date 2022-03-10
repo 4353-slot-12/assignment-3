@@ -7,6 +7,7 @@ import session from 'express-session';
 import passport from './passport.js'
 import router from './routes/index.js';
 import authRouter from './routes/auth.js';
+import { secureStaticFiles } from './middleware/index.js';
 
 
 dotenv.config();
@@ -28,11 +29,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :status'));
-app.use(express.static(path.join(baseDir, 'frontend'), {
-    extensions: ['html', 'htm']
-}));
 
 app.use('/api', router);
-app.use('/auth', authRouter)
+
+app.use(secureStaticFiles);
+app.use(express.static(path.join(baseDir, 'frontend'), {
+    extensions: ['html']
+}));
+
 
 export default app;
