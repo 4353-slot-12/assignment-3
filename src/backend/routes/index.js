@@ -77,4 +77,6 @@ router.put('/profile', (req, res) => {
     res.send();
 })
 
+router.post('/sample', SampleService.echoMessage)
+
 export default router;

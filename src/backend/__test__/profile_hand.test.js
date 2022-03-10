@@ -1,8 +1,9 @@
-import app from '../app';
+import app from '../app.js';
 import request from 'supertest';
 import { Profile } from '../services/profile_hand.js';
 import ProfileService from '../services/profile_hand.js';
 import { profiles } from '../services/profile_hand.js';
+import { expect } from '@jest/globals';
 
 test('Add profile', async () => {
     let service = new ProfileService();
@@ -53,6 +54,7 @@ test('GET invalid api/profile/:id', async () => {
 });
 
 test('POST api/profile/:id', async () => {
+    expect.assertions(2);
     let payload1 = new Profile(17, "a", "b", "c", "d", "e", "f")
     let payload2 = new Profile(17, "e", "b", "q", "d", "Z", "f")
     
@@ -65,8 +67,8 @@ test('POST api/profile/:id', async () => {
 });
 
 test('PUT api/profile', async () => {
+    expect.assertions(2);
     let payload = new Profile(12, "a", "b", "c", "d", "e", "f");
-    
     const res = await request(app).put("/api/profile").send({profile: JSON.stringify(payload)});
 
     expect(res.statusCode).toEqual(201);
