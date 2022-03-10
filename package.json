@@ -1,6 +1,6 @@
 {
   "name": "cosc4353-team-12-assignment-2",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "website for denise delovely designs, by team 6",
   "main": "backend/index.js",
   "type": "module",
