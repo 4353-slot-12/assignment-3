@@ -28,7 +28,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-
+// Register new user endpoint
 router.post('/register', (req, res) => {
     console.log(req.body);
     const username = req.body.username;
@@ -57,7 +57,7 @@ router.post('/profile', isAuth, (req, res) => {
     if (invalidField) 
         return res.status(428).send({ message: `Invalid ${invalidField} field.`})
 
-    ProfileService.insertProfile(profile);
+    ProfileService.addProfile(profile);
     return res.redirect('/quote');
 });
 
@@ -73,42 +73,19 @@ router.put('/profile', isAuth, (req, res) => {
     if (invalidField) 
         return res.status(428).send({ message: `Invalid ${invalidField} field.`})
 
-    const profileId = ProfileService.removeProfile(req.user.id);
-    ProfileService.insertProfile(profile, profileId);
+    ProfileService.removeProfile(req.user.id);
+    ProfileService.addProfile(profile);
+
     return res.redirect('/quote');
 })
 
+// Get profile endpoint
 router.get('/profile', isAuth, (req, res) => {
     const profile = ProfileService.findByUserId(req.user.id);
     if (profile === undefined)
-        return res.redirect('/proto-profile');
-    return res.status(200).send({ data: profile });
+        return res.status(404).redirect('/proto-profile');
+    return res.status(302).send({data: profile});
 });
-
-// router.get('/profile/:id', (req, res) => {
-//     let profileId = parseInt(req.params.id);
-//     console.log(profileId);
-//     let prof = profile_service.getProfile(id);
-//     if(prof === undefined){
-//         res.status(404).send(null);
-//     }else{
-//         res.status(200).send(JSON.stringify(prof));
-//     }
-// })
-
-// router.post('/profile/:id', (req, res) => {
-//     let profile = JSON.parse(req.body.profile);
-//     let id = parseInt(req.params.id.slice(1))
-//     profile_service.updateProfile(id, profile);
-//     res.status(202);
-//     res.send();
-// })
-
-// router.put('/profile', (req, res) => {
-//     profile_service.addProfile(JSON.parse(req.body.profile))
-//     res.status(201);
-//     res.send();
-// })
 
 router.post('/sample', SampleService.echoMessage)
 
