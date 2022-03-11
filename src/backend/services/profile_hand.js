@@ -1,3 +1,6 @@
+const wordyRegex = /^\w+(\s+\w+){0,5}$/i;
+const zipRegex = /^\d{5}$/;
+
 export class Profile{
     constructor(id, name, addr1, addr2, city, state, zip, userId){
         this.id = id
@@ -18,11 +21,29 @@ export class Profile{
 export const profiles = [];
 
 export default class ProfileService {    
+    static insertProfile(profile, id=null) {
+        profiles.push(profile);
+        console.log(JSON.stringify(profiles, null, 4));
+    }
 
-    constructor(){
-        while(profiles.length > 0){
-            profiles.pop();
+    static validateProfile(profile) {
+        for (const [key, value] of Object.entries(profile)) {
+            if (key === 'address2' && !value.length) continue;
+            const regex = key === 'zip' ? zipRegex : wordyRegex;
+            if (regex.test(value)) continue;    
+            return key;
         }
+    }
+
+    static findByUserId(userId){ 
+        return profiles.find(profile => profile.userId === userId)
+    }
+
+    static removeProfile(userId) {
+        const index = profiles.findIndex(profile => profile.userId === userId);
+        const id = profiles[index].id;
+        profiles.slice(index, 1);
+        return id;
     }
 
     addProfile(profile){

@@ -10,3 +10,10 @@
 const authNavBar = document.getElementById('nav-authenticated-user');
 authNavBar.style.display = "none";
 
+// Logout function
+async function logout() {
+    const resp = await fetch({
+        method: "POST",
+        url: "/api/logout",
+    })
+}
