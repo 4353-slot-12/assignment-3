@@ -9,15 +9,18 @@ const router = Router();
 
 const wordyRegex = /^\w+$/i;
 
-router.get('/logout', (req, res) => {
-    res.status(201).redirect('/login');
-})
+// router.post('/login', passport.authenticate('local', {
+//     successReturnToOrRedirect: '/quote',
+//     failureRedirect: '/login'
+// }));
 
-router.post('/login', passport.authenticate('local', {
-    successReturnToOrRedirect: '/quote',
-    failureRedirect: '/login',
-    failureMessage: true
-}));
+router.post('/login', (req, res, next) => {
+    const authenticateUser = passport.authenticate('local', {
+        successReturnToOrRedirect: '/quote',
+        failureRedirect: '/login'
+    });
+    authenticateUser(req, res, () => res.redirect('/login'));
+})
 
 router.get('/logout', (req, res) => {
     req.logout();

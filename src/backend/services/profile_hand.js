@@ -42,6 +42,7 @@ export default class ProfileService {
 
     static addProfile(profile){
         profiles.push(profile)
+        console.log(profiles)
     }
 
     static updateProfile(id, profile){ // Call using a Profile object
