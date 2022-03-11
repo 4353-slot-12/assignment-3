@@ -9,10 +9,6 @@ const router = Router();
 
 const wordyRegex = /^\w+$/i;
 
-router.post('/account', (req, res) => {
-    res.status(308).redirect('/proto-profile');
-});
-
 router.get('/logout', (req, res) => {
     res.status(201).redirect('/login');
 })
@@ -45,6 +41,7 @@ router.post('/register', (req, res) => {
     const authenticateUser = passport.authenticate('local');
     authenticateUser(req, res, () => res.redirect('/proto-profile'));
 })
+
 
 // Create profile endpoint
 router.post('/profile', isAuth, (req, res) => {
@@ -79,9 +76,16 @@ router.put('/profile', isAuth, (req, res) => {
     return res.redirect('/quote');
 })
 
+<<<<<<< Updated upstream
 // Get profile endpoint
+=======
+
+>>>>>>> Stashed changes
 router.get('/profile', isAuth, (req, res) => {
+    // console.log(req.user);
+    // console.log(req)
     const profile = ProfileService.findByUserId(req.user.id);
+    console.log(profile)
     if (profile === undefined)
         return res.status(404).redirect('/proto-profile');
     return res.status(302).send({data: profile});
