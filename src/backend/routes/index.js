@@ -46,7 +46,7 @@ router.post('/register', (req, res) => {
 // Create profile endpoint
 router.post('/profile', isAuth, (req, res) => {
     const profile = {
-        id: req.user.id,
+        userId: req.user.id,
         ...req.body,
     };
 
@@ -76,16 +76,10 @@ router.put('/profile', isAuth, (req, res) => {
     return res.redirect('/quote');
 })
 
-<<<<<<< Updated upstream
 // Get profile endpoint
-=======
-
->>>>>>> Stashed changes
 router.get('/profile', isAuth, (req, res) => {
-    // console.log(req.user);
-    // console.log(req)
+    console.log(req.user.id)
     const profile = ProfileService.findByUserId(req.user.id);
-    console.log(profile)
     if (profile === undefined)
         return res.status(404).redirect('/proto-profile');
     return res.status(302).send({data: profile});
