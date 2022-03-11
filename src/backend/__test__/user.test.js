@@ -6,8 +6,8 @@ test('salt generates correctly', () => {
 });
 
 test('user id generates correctly', () => {
-    const salt = UserService.generateUserId();
-    expect(salt).toMatch(/^[0-9a-f]{24}$/);
+    const userId = UserService.generateUserId();
+    expect(userId).toMatch(/^[0-9a-f]{24}$/);
 });
 
 test('password hash generates correctly', () => {
