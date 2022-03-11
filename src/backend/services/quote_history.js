@@ -13,19 +13,11 @@ export class Quote{
 export const quote_history = []; 
 
 export default class QuoteHistoryService {    
-
-    constructor(){
-        while(quote_history.length > 0){
-            quote_history.pop();
-        }
-    }
-
     addQuote(quote){
         quote_history.push(quote)
     }
 
     getQuote(id){ 
-        return quote_history.find(p => p.id === id)
+        return quote_history.find(q => q.id === id)
     }
-
 }
