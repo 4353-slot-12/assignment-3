@@ -49,7 +49,7 @@ router.post('/register', (req, res) => {
 // Create profile endpoint
 router.post('/profile', isAuth, (req, res) => {
     const profile = {
-        id: req.user.id,
+        userId: req.user.id,
         ...req.body,
     };
 
