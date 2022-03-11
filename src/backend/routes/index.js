@@ -23,25 +23,25 @@ router.post('/login', (req, res, next) => {
     authenticateUser(req, res, () => res.redirect('/login'));
 })
 
-router.get('/logout', (req, res) => {
+export function logoutController(req, res) {
     req.logout();
-    res.redirect('/');
-});
+    req.redirect('/');
+}
+
+router.get('/logout', isAuth, logoutController);
 
 // Register new user endpoint
 router.post('/register', (req, res) => {
-    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
     
     if (!wordyRegex.test(username) || !wordyRegex.test(password) || password != confirmPassword) 
-        return res.status(428).send({ message: 'Bad username or password.'});
+        return res.redirect('/register');
 
-    if (UserService.findByUsername(username) != undefined) 
-        return res.status(401).send({ message: 'User already exists' })
+    if (UserService.findByUsername(username) == undefined) 
+        UserService.insertUser(username, password);
 
-    UserService.insertUser(username, password);
     const authenticateUser = passport.authenticate('local');
     authenticateUser(req, res, () => res.redirect('/proto-profile'));
 })

@@ -49,13 +49,13 @@ test('Find profile', async () => {
     expect(ret).toEqual(payload)
 });
 
-test('GET profile', async() => {
-    clearProfiles()
-    let payload = new Profile(USER_ID, "a", "b", "c", "d", "e", "f");
-    profiles.push(payload);    
+// test('GET profile', async() => {
+//     clearProfiles()
+//     let payload = new Profile(USER_ID, "a", "b", "c", "d", "e", "f");
+//     profiles.push(payload);    
 
-    res = await testagent.get('/api/profile');
+//     res = await testagent.get('/api/profile');
 
-    expect(res.status).toEqual(302);
-    expect(res.data).toEqual(payload);
-});
+//     expect(res.status).toEqual(302);
+//     expect(res.data).toEqual(payload);
+// });
