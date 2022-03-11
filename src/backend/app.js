@@ -7,6 +7,7 @@ import session from 'express-session';
 import passport from './passport.js'
 import router from './routes/index.js';
 import { secureStaticFiles } from './middleware/index.js';
+import methodOverride from 'method-override';
 
 
 dotenv.config();
@@ -36,5 +37,6 @@ app.use(express.static(path.join(baseDir, 'frontend'), {
     extensions: ['html']
 }));
 
+app.use(methodOverride('_method'));
 
 export default app;

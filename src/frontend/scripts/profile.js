@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function populateFields(profile){
-    console.log(profile.data.name)
     document.getElementById("name").value = profile.data.name;
     document.getElementById("address1").value = profile.data.address1;
     document.getElementById("address2").value = profile.data.address2;
