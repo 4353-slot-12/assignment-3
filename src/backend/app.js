@@ -9,14 +9,15 @@ import router from './routes/index.js';
 import { secureStaticFiles } from './middleware/index.js';
 import methodOverride from 'method-override';
 
-
 dotenv.config();
 const app = express();
 const baseDir = path.join(process.cwd(), 'src');
 
-
 app.use(express.json());
 app.use(cors());
+
+app.use(methodOverride('_method'));
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'keyboard-cat',
     resave: false,
@@ -36,7 +37,5 @@ app.use(secureStaticFiles);
 app.use(express.static(path.join(baseDir, 'frontend'), {
     extensions: ['html']
 }));
-
-app.use(methodOverride('_method'));
 
 export default app;

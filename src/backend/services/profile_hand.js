@@ -17,7 +17,7 @@ export class Profile{
     }
 }
 
-export const profiles = [];
+export let profiles = [];
 
 export default class ProfileService {    
     static validateProfile(profile) {
@@ -35,17 +35,16 @@ export default class ProfileService {
 
     static removeProfile(userId) {
         const index = profiles.findIndex(profile => profile.userId === userId);
-        const id = profiles[index].userId;
-        profiles.slice(index, 1);
-        return id;
+        profiles = profiles.splice(index, 1);
+        return index;
     }
 
-    static addProfile(profile){
-        profiles.push(profile)
+    static addProfile(data){
+        profiles.push(new Profile(data.userId, data.name, data.address1, data.address2, data.city, data.state, data.zip));
     }
 
-    static updateProfile(id, profile){ // Call using a Profile object
-        let selected = profiles.find(p => p.userId === id);
+    static updateProfile(profile){ // Call using a Profile object
+        let selected = profiles.find(p => p.userId === profile.userId);
         selected.update(profile.name, profile.address1, profile.address2, profile.city, profile.state, profile.zip);
     }
 
