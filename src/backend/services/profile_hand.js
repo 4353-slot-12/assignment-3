@@ -29,7 +29,7 @@ export default class ProfileService {
         }
     }
 
-    static findByUserId(userId){ 
+    static findByUserId(userId) { 
         return profiles.find(profile => profile.userId === userId)
     }
 
@@ -47,5 +47,4 @@ export default class ProfileService {
         let selected = profiles.find(p => p.userId === profile.userId);
         selected.update(profile.name, profile.address1, profile.address2, profile.city, profile.state, profile.zip);
     }
-
 }

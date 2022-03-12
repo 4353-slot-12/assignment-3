@@ -15,8 +15,6 @@ import {
 
 const router = Router();
 
-const wordyRegex = /^\w+$/i;
-
 router.get('/auth', authController)
 router.post('/login', loginController);
 router.get('/logout', isAuth, logoutController);
