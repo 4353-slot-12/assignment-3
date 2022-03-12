@@ -1,7 +1,6 @@
 import app from '../app';
 import request from 'supertest';
 import { expect } from '@jest/globals';
-import { logoutController } from '../routes';
 
 test('GET api/auth', async () => {
     expect.assertions(2);
@@ -40,20 +39,6 @@ describe('register/login flow', () => {
             .expect('Location', '/register')
     })
 })
-
-test('logout', () => {
-    const req = {
-        logoutCalled: false,
-        logout() { this.logoutCalled = true },
-    }
-    const res = {
-        redirectUrl: null,
-        redirect(url) { this.redirectUrl = url },
-    };
-    logoutController(req, res);
-    expect(req.logoutCalled).toBe(true);
-    expect(res.redirectUrl).toBe('/');
-});
 
 // test('POST api/login', async () => {
 //     expect.assertions(2);
