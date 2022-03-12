@@ -9,42 +9,43 @@ const router = Router();
 
 const wordyRegex = /^\w+$/i;
 
-router.post('/account', (req, res) => {
-    res.status(308).redirect('/proto-profile');
-});
-
-router.get('/logout', (req, res) => {
-    res.status(201).redirect('/login');
+router.get('/auth', (req, res) => {
+    return res.status(200).send({ authenticated: req.isAuthenticated() })
 })
 
-router.post('/login', passport.authenticate('local', {
-    successReturnToOrRedirect: '/quote',
-    failureRedirect: '/login',
-    failureMessage: true
-}));
+router.post('/login', (req, res, next) => {
+    if (req.isAuthenticated())
+        return res.redirect('/quote');
+    const authenticateUser = passport.authenticate('local', {
+        successReturnToOrRedirect: '/quote',
+        failureRedirect: '/login'
+    });
+    authenticateUser(req, res, () => res.redirect('/login'));
+})
 
-router.get('/logout', (req, res) => {
+export function logoutController(req, res) {
     req.logout();
-    res.redirect('/');
-});
+    req.redirect('/');
+}
+
+router.get('/logout', isAuth, logoutController);
 
 // Register new user endpoint
 router.post('/register', (req, res) => {
-    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
     
     if (!wordyRegex.test(username) || !wordyRegex.test(password) || password != confirmPassword) 
-        return res.status(428).send({ message: 'Bad username or password.'});
+        return res.redirect('/register');
 
-    if (UserService.findByUsername(username) != undefined) 
-        return res.status(401).send({ message: 'User already exists' })
+    if (UserService.findByUsername(username) == undefined) 
+        UserService.insertUser(username, password);
 
-    UserService.insertUser(username, password);
     const authenticateUser = passport.authenticate('local');
     authenticateUser(req, res, () => res.redirect('/proto-profile'));
 })
+
 
 // Create profile endpoint
 router.post('/profile', isAuth, (req, res) => {
@@ -81,6 +82,7 @@ router.put('/profile', isAuth, (req, res) => {
 
 // Get profile endpoint
 router.get('/profile', isAuth, (req, res) => {
+    console.log(req.user.id)
     const profile = ProfileService.findByUserId(req.user.id);
     if (profile === undefined)
         return res.status(404).redirect('/proto-profile');

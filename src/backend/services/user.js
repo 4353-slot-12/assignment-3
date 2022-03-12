@@ -36,10 +36,8 @@ export default class UserService {
 
     static verifyPassword(user, password) {
         const givenHash = UserService.generateHash(password, user.salt);
-        if (givenHash === user.hash) {
-            console.log(`User ${user.username} gave the correct password.`);
+        if (givenHash === user.hash)
             return true;
-        }
         return false;
     }
 }
