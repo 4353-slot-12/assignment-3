@@ -8,18 +8,24 @@ import {
     editProfileController, 
     getProfileController, 
     registerController, 
-    authController
+    authController,
+    createQuoteController,
+    getHistoryController,
 } from '../controllers/index.js';
 
 const router = Router();
 
 router.get('/auth', authController)
 router.post('/login', loginController);
-router.get('/logout', isAuth, logoutController);
 router.post('/register', registerController);
+router.post('/sample', SampleService.echoMessage)
+
+
+router.get('/logout', isAuth, logoutController);
 router.post('/profile', isAuth, createProfileController);
 router.put('/profile', isAuth, editProfileController)
 router.get('/profile', isAuth, getProfileController);
-router.post('/sample', SampleService.echoMessage)
+router.post('/quote', isAuth, createQuoteController);
+router.get('/quote', isAuth, getHistoryController);
 
 export default router;

@@ -1,9 +1,6 @@
-import app from '../app.js';
-import request from 'supertest';
-import require from 'supertest';
-import { Profile } from '../services/profile_hand.js';
-import ProfileService from '../services/profile_hand.js';
-import { profiles } from '../services/profile_hand.js';
+import { Profile } from '../services/profile.js';
+import ProfileService from '../services/profile.js';
+import { profiles } from '../services/profile.js';
 import { expect } from '@jest/globals';
 import UserService from '../services/user.js';
 

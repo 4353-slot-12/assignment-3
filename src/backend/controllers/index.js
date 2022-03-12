@@ -1,6 +1,6 @@
 import passport from 'passport';
-import ProfileService from '../services/profile_hand.js';
-import {profiles} from '../services/profile_hand.js';
+import ProfileService from '../services/profile.js';
+import {profiles} from '../services/profile.js';
 import UserService from '../services/user.js';
 
 const wordyRegex = /^\w+$/i;
@@ -81,6 +81,14 @@ export function authController(req, res) {
     res.status(200).send({ authenticated: req.isAuthenticated() });
 }
 
+export function createQuoteController(req, res) {
+    res.status(200).send();
+}
+
+export function getHistoryController(req, res) {
+    res.status(200).send();
+}
+
 export default { 
     loginController, 
     logoutController, 
@@ -88,5 +96,7 @@ export default {
     editProfileController, 
     getProfileController, 
     registerController, 
-    authController
+    authController,
+    createQuoteController,
+    getHistoryController,
 }

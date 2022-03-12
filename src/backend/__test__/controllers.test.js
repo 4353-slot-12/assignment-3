@@ -1,6 +1,6 @@
 import { beforeEach, expect, test, describe } from "@jest/globals";
-import ProfileService, { profiles } from "../services/profile_hand.js";
-import UserService, { users } from "../services/user.js";
+import ProfileService, { profiles } from "../services/profile.js";
+
 import { 
     loginController, 
     logoutController, 
