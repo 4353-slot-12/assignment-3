@@ -32,9 +32,10 @@ test('Modify profile', async () => {
     let payload1 = new Profile(12, "a", "b", "c", "d", "e", "f")
     let payload2 = new Profile(12, "e", "b", "q", "d", "Z", "f")
 
-    profiles.push(payload1);
-    ProfileService.updateProfile(12, payload2)
+    ProfileService.addProfile(payload1)
+    ProfileService.updateProfile(payload2)
 
+    expect(profiles).not.toContainEqual(payload1);
     expect(profiles).toContainEqual(payload2);
 });
 
@@ -53,23 +54,20 @@ test('Remove profile', async () => {
     clearProfiles()
 
     let payload = new Profile(12, "a", "b", "c", "d", "e", "f");
-    let payload2 = new Profile(12, "234234234", "b224", "c", "d", "e", "f");
-
     profiles.push(payload);
-    profiles.push(payload2);     
-    let ret = ProfileService.removeProfile(12);
 
-    expect(ret).not.toEqual(payload)
-    expect(ret).toEqual(payload2)
+    let ret = ProfileService.removeProfile(12);
+    expect(ret).not.toContainEqual(payload)
 });
 
-// test('GET profile', async() => {
-//     clearProfiles()
-//     let payload = new Profile(USER_ID, "a", "b", "c", "d", "e", "f");
-//     profiles.push(payload);    
+test('Validate valid profile', async () => {
+    clearProfiles()
+    let ret = ProfileService.validateProfile(new Profile(12, "a", "b", "c", "d", "TX", "77777"))
+    expect(ret).toBeUndefined()
+});
 
-//     res = await testagent.get('/api/profile');
-
-//     expect(res.status).toEqual(302);
-//     expect(res.data).toEqual(payload);
-// });
+test('Validate invalid profile', async () => {
+    clearProfiles()
+    let ret = ProfileService.validateProfile(new Profile(12, "a", "b", "c", "d", "TXasdas-d3i0dn_*F#NFUINW", "30BHC)FB#)UBF)S"))
+    expect(ret).not.toBeUndefined()
+});
