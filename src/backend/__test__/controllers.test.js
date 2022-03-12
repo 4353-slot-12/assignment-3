@@ -1,4 +1,14 @@
 import { beforeEach, expect, test, describe } from "@jest/globals";
+import { 
+    loginController, 
+    logoutController, 
+    createProfileController, 
+    editProfileController, 
+    getProfileController, 
+    registerController, 
+    authController
+} from '../controllers/index.js';
+
 
 const req = {
     url: null,

@@ -3,6 +3,8 @@ import ProfileService from '../services/profile_hand.js';
 import {profiles} from '../services/profile_hand.js';
 import UserService from '../services/user.js';
 
+const wordyRegex = /^\w+$/i;
+
 export function loginController(req, res) {
     if (req.isAuthenticated())
         return res.redirect('/quote');
@@ -74,4 +76,14 @@ export function registerController(req, res) {
 
 export function authController(req, res) {
     res.status(200).send({ authenticated: req.isAuthenticated() });
+}
+
+export default { 
+    loginController, 
+    logoutController, 
+    createProfileController, 
+    editProfileController, 
+    getProfileController, 
+    registerController, 
+    authController
 }
