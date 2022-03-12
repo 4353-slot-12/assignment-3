@@ -26,7 +26,7 @@ router.post('/login', (req, res, next) => {
 
 export function logoutController(req, res) {
     req.logout();
-    req.redirect('/');
+    res.redirect('/');
 }
 
 router.get('/logout', isAuth, logoutController);

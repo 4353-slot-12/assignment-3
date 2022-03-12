@@ -44,14 +44,15 @@ describe('register/login flow', () => {
 test('logout', () => {
     const req = {
         logoutCalled: false,
-        redirectUrl: null,
-        logout: () => this.logoutCalled = true,
-        redirect: url => this.redirectUrl = url,
+        logout() { this.logoutCalled = true },
     }
-    const res = {};
+    const res = {
+        redirectUrl: null,
+        redirect(url) { this.redirectUrl = url },
+    };
     logoutController(req, res);
     expect(req.logoutCalled).toBe(true);
-    expect(req.redirectUrl).toBe('/');
+    expect(res.redirectUrl).toBe('/');
 });
 
 // test('POST api/login', async () => {
