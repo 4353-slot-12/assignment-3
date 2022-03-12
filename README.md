@@ -27,7 +27,7 @@ git clone https://github.com/4353-slot-12/assignment-3.git
 Next, let's navigate into the root directory of the project.
 
 ```
-cd assignment-2
+cd assignment-3
 ```
 
 <!-- ### Step 3: Ensure that the `.env` file is present.

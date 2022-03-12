@@ -1,9 +1,11 @@
 import app from '../app';
 import request from 'supertest';
 import SampleService from '../services/sample';
+import { expect } from '@jest/globals';
 
 
 test('jest + supertest sample', async () => {
+    expect.assertions(2);
     const payload = { message: 'Hello from Jest!' }
     const res = await request(app).post('/api/sample').send(payload);
 

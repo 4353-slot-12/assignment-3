@@ -1,6 +1,9 @@
+const wordyRegex = /^\w+(\s+\w+){0,5}$/i;
+const zipRegex = /^\d{5}$/;
+
 export class Profile{
-    constructor(id, name, addr1, addr2, city, state, zip){
-        this.id = id
+    constructor(userId, name, addr1, addr2, city, state, zip){
+        this.userId = userId
         this.update(name, addr1, addr2, city, state, zip)
     }
 
@@ -14,27 +17,34 @@ export class Profile{
     }
 }
 
-export const profiles = [];
+export let profiles = [];
 
 export default class ProfileService {    
-
-    constructor(){
-        while(profiles.length > 0){
-            profiles.pop();
+    static validateProfile(profile) {
+        for (const [key, value] of Object.entries(profile)) {
+            if (key === 'address2' && !value.length) continue;
+            const regex = key === 'zip' ? zipRegex : wordyRegex;
+            if (regex.test(value)) continue;    
+            return key;
         }
     }
 
-    addProfile(profile){
-        profiles.push(profile)
+    static findByUserId(userId) { 
+        return profiles.find(profile => profile.userId === userId)
     }
 
-    getProfile(id){ 
-        return profiles.find(p => p.id === id)
+    static removeProfile(userId) {
+        const index = profiles.findIndex(profile => profile.userId === userId);
+        profiles = profiles.splice(index, 1);
+        return index;
     }
 
-    updateProfile(id, profile){ // Call using a Profile object
-        let selected = profiles.find(p => p.id === id);
+    static addProfile(data){
+        profiles.push(new Profile(data.userId, data.name, data.address1, data.address2, data.city, data.state, data.zip));
+    }
+
+    static updateProfile(profile){ // Call using a Profile object
+        let selected = profiles.find(p => p.userId === profile.userId);
         selected.update(profile.name, profile.address1, profile.address2, profile.city, profile.state, profile.zip);
     }
-
 }
