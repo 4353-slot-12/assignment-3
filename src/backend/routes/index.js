@@ -4,6 +4,7 @@ import passport from 'passport';
 import { isAuth } from '../middleware/index.js'
 import SampleService from '../services/sample.js';
 import ProfileService from '../services/profile_hand.js';
+import {profiles} from '../services/profile_hand.js';
 
 const router = Router();
 
@@ -49,6 +50,7 @@ router.post('/register', (req, res) => {
 
 // Create profile endpoint
 router.post('/profile', isAuth, (req, res) => {
+    console.log("POST AAAAAAAAAAAAAAAAA")
     const profile = {
         userId: req.user.id,
         ...req.body,
@@ -65,6 +67,7 @@ router.post('/profile', isAuth, (req, res) => {
 
 // Edit profile endpoint
 router.put('/profile', isAuth, (req, res) => {
+    console.log("put hehe")
     const profile = {
         userId: req.user.id,
         ...req.body,
@@ -72,10 +75,11 @@ router.put('/profile', isAuth, (req, res) => {
 
     const invalidField = ProfileService.validateProfile(profile);
     if (invalidField) 
-        return res.status(428).send({ message: `Invalid ${invalidField} field.`})
-
-    ProfileService.removeProfile(req.user.id);
-    ProfileService.addProfile(profile);
+        return res.status(428).send({ message: `Invalid ${invalidField} field.`});
+    
+    console.log(profiles);
+    ProfileService.updateProfile(profile);
+    console.log(profiles);
 
     return res.redirect('/quote');
 })

@@ -9,9 +9,9 @@ const datePicker = document.getElementById("delivery-date");
 datePicker.value = stringDate;
 datePicker.min = stringDate;
 
-
-
-fetch('http://localhost:8000/api/profile', {
+// Runs on load to populate the address field.
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('http://localhost:8000/api/profile', {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', 
     cache: 'no-cache', 
@@ -22,6 +22,18 @@ fetch('http://localhost:8000/api/profile', {
     redirect: 'follow', 
     referrerPolicy: 'no-referrer', 
 })
-	.then(response => response.json())
-	.then(data => console.log(JSON.stringify(data, null, 4)))
-	.catch(err => console.error(err));
+    .then(response => response.json())
+    .then(data => populateFields(data))
+    .catch(err => console.error(err));
+});
+
+function populateFields(profile){
+    if(profile.data.address2 === "")
+        document.getElementById("delivery-address").innerHTML = profile.data.address1 + 
+        "<br>" + profile.data.city + " " + profile.data.state + " " + profile.data.zip;
+    else
+        document.getElementById("delivery-address").innerHTML = profile.data.address1 + 
+        "<br>" + profile.data.address2 + 
+        "<br>" + profile.data.city + ", " + profile.data.state + " " + profile.data.zip;
+}
+

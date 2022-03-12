@@ -49,6 +49,20 @@ test('Find profile', async () => {
     expect(ret).toEqual(payload)
 });
 
+test('Remove profile', async () => {
+    clearProfiles()
+
+    let payload = new Profile(12, "a", "b", "c", "d", "e", "f");
+    let payload2 = new Profile(12, "234234234", "b224", "c", "d", "e", "f");
+
+    profiles.push(payload);
+    profiles.push(payload2);     
+    let ret = ProfileService.removeProfile(12);
+
+    expect(ret).not.toEqual(payload)
+    expect(ret).toEqual(payload2)
+});
+
 // test('GET profile', async() => {
 //     clearProfiles()
 //     let payload = new Profile(USER_ID, "a", "b", "c", "d", "e", "f");
