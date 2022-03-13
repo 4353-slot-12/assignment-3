@@ -44,11 +44,20 @@ Node dependencies need to be installed before we can run the backend for the web
 npm install
 ```
 
-### Step 4: Run the backend server
+### Step 4: Run backend tests.
+They should all be passing.
+
+```
+npm run test
+```
+
+### Step 5: Run the backend server
 At this point, we can check if we did everything correctly by starting the server. Start the server by navigating to the root directory of the project (the same directory as this README file) and running the following command:
 
 ```
 npm run start
 ```
 
-Finally, open your Google Chrome or Firefox and visit `http://localhost:8000`. You should see that the website loaded cleanly. Make sure to check the developer console to see if you're getting any errors.
+Finally, open your Google Chrome or Firefox and visit `http://localhost:8080`. You should see that the website loaded cleanly. Make sure to check the developer console to see if you're getting any errors.
+
+
