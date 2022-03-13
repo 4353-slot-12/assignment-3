@@ -1,15 +1,10 @@
 import { beforeEach, expect, test, describe } from "@jest/globals";
 import ProfileService, { profiles } from "../services/profile.js";
-
-import { 
-    loginController, 
-    logoutController, 
-    createProfileController, 
-    editProfileController, 
-    getProfileController, 
-    registerController, 
-    authController
-} from '../controllers/index.js';
+import UserController from "../controllers/user.js";
+import ProfileController from "../controllers/profile.js";
+import QuoteController from "../controllers/quote.js";
+import SampleController from "../controllers/sample.js";
+import QuoteService, { quotes } from "../services/quote.js";
 
 
 const fakeUser = {
@@ -47,12 +42,6 @@ const res = {
     send(data) { this.sent = data; }
 }
 
-
-
-let nextCalled = false;
-
-function next() { nextCalled = true; }
-
 describe('controllers', () => {
     beforeEach(() => {
         profiles.length = 0;
@@ -65,8 +54,31 @@ describe('controllers', () => {
         res.redirectUrl = null;
         res.statusCode = null;
         res.sent = null;
+    });
 
-        nextCalled = false;
+    test('sample controller test', () => {
+        const res = {
+            statusCode: '',
+            body: null,
+            status: function(code) { 
+                this.statusCode = code;
+                return this; 
+            },
+            send: function(obj) { 
+                this.body = obj; 
+                return this; 
+            },
+        };
+    
+        const req = {
+            body: {
+                message: 'Hello from Jest!'
+            }
+        };
+    
+        SampleController.echo(req, res);
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual({ echo: req.body.message });
     });
 
     test('logout', () => {
@@ -78,26 +90,26 @@ describe('controllers', () => {
             redirectUrl: null,
             redirect(url) { this.redirectUrl = url },
         };
-        logoutController(req, res);
+        UserController.logout(req, res);
         expect(req.logoutCalled).toBe(true);
         expect(res.redirectUrl).toBe('/');
     });
 
     test('login auth', () => {
-        loginController(req, res);
+        UserController.login(req, res);
         expect(res.redirectUrl).toBe('/quote');
         expect(res.statusCode).toBe(304);
     })
 
     test('create profile', () => {
-        createProfileController(req, res);
+        ProfileController.create(req, res);
         expect(res.statusCode).toBe(304);
         expect(res.redirectUrl).toBe('/quote');
     });
 
     test('create invalid profile', () => {
         req.body.name = 'b@b 5@6@t';
-        createProfileController(req, res);
+        ProfileController.create(req, res);
         expect(res.statusCode).toBe(428);
         expect(res.sent).toEqual({ message: "Invalid name field."});
         expect(res.redirectUrl).toBeNull();
@@ -107,7 +119,7 @@ describe('controllers', () => {
         const data = { ...req.body, userId: req.user.id };
         ProfileService.addProfile(data);
 
-        editProfileController(req, res);
+        ProfileController.edit(req, res);
         expect(res.statusCode).toBe(304);
         expect(res.redirectUrl).toBe('/quote');
     });
@@ -117,7 +129,7 @@ describe('controllers', () => {
         ProfileService.addProfile(data);
 
         req.body.name = 'b@b 5@6@t';
-        editProfileController(req, res);
+        ProfileController.edit(req, res);
         expect(res.statusCode).toBe(428);
         expect(res.sent).toEqual({ message: "Invalid name field."});
         expect(res.redirectUrl).toBeNull();
@@ -126,15 +138,54 @@ describe('controllers', () => {
     test('get profile', () => {
         const data = { ...req.body, userId: req.user.id };
         ProfileService.addProfile(data);
-        getProfileController(req, res);
+        ProfileController.get(req, res);
         expect(res.statusCode).toBe(200);
         expect(res.sent).toEqual({ data })
     });
 
     test('get profile no exist', () => {
-        getProfileController(req, res);
+        ProfileController.get(req, res);
         expect(res.statusCode).toBe(304);
         expect(res.redirectUrl).toBe("/proto-profile");
         expect(res.sent).toBeNull();
     });
+
+    test('quote create', () => {
+        req.body = {
+            gallonsRequested: "5",
+            deliveryDate: "2022-03-13"
+        };
+        ProfileService.addProfile(fakeUser.body);
+        QuoteController.create(req, res);
+        expect(res.statusCode).toBe(201);
+        expect(res.sent).toHaveProperty("gallonsRequested");
+        expect(res.sent).toHaveProperty("deliveryDate");
+        expect(res.sent).toHaveProperty("deliveryAddress");
+        expect(res.sent).toHaveProperty("timeStamp");
+        expect(res.sent).toHaveProperty("suggestedPrice");
+        expect(res.sent).toHaveProperty("totalPrice");
+        expect(res.sent).not.toHaveProperty("userId");
+    })
+
+    test('quote create invalid', () => {
+        req.body = {
+            gallonsRequested: "5!",
+            deliveryDate: "202#@$3"
+        };
+        ProfileService.addProfile(fakeUser.body);
+        QuoteController.create(req, res);
+        expect(res.statusCode).toBe(304);
+        expect(res.redirectUrl).toBe('/quote');
+    })
+
+    test('quote history', () => {
+        const data = {
+            gallonsRequested: 5,
+            deliveryDate: "2022-03-13"
+        };
+        QuoteService.insert(fakeUser.user.id, data, fakeUser.body);
+        QuoteController.history(req, res);
+        expect(res.statusCode).toBe(200);
+        expect(res.sent).toEqual(quotes.get(fakeUser.user.id));
+    })
 });

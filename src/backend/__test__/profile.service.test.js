@@ -1,6 +1,4 @@
-import { Profile } from '../services/profile.js';
-import ProfileService from '../services/profile.js';
-import { profiles } from '../services/profile.js';
+import ProfileService, { Profile, profiles } from '../services/profile.js';
 import { expect } from '@jest/globals';
 import UserService from '../services/user.js';
 
@@ -67,4 +65,16 @@ test('Validate invalid profile', async () => {
     clearProfiles()
     let ret = ProfileService.validateProfile(new Profile(12, "a", "b", "c", "d", "TXasdas-d3i0dn_*F#NFUINW", "30BHC)FB#)UBF)S"))
     expect(ret).not.toBeUndefined()
+});
+
+test('full address profile', async () => {
+    clearProfiles()
+    let profile = new Profile(12, "a", "b", "c", "d", "e", "f");
+    expect(profile.fullAddress).toBe(`b<br>c<br>d, e - f`)
+});
+
+test('Validate valid profile no address2', async () => {
+    clearProfiles()
+    let ret = ProfileService.validateProfile(new Profile(12, "a", "b", "", "d", "TX", "77777"))
+    expect(ret).toBeUndefined()
 });

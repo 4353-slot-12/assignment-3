@@ -1,7 +1,7 @@
 const wordyRegex = /^\w+(\s+\w+){0,5}$/i;
 const zipRegex = /^\d{5}$/;
 
-export class Profile{
+export class Profile {
     constructor(userId, name, addr1, addr2, city, state, zip){
         this.userId = userId
         this.update(name, addr1, addr2, city, state, zip)
@@ -14,6 +14,11 @@ export class Profile{
         this.city = city
         this.state = state
         this.zip = zip
+    }
+
+    get fullAddress() {
+        const address2 = this.address2.length ? `${this.address2}<br>` : "";
+        return `${this.address1}<br>${address2}${this.city}, ${this.state} - ${this.zip}`;
     }
 }
 

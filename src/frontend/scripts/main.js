@@ -8,7 +8,7 @@
 
 // Anon user view 
 const authNavBar = document.getElementById('nav-authenticated-user');
-authNavBar.style.display = "none";
+if (authNavBar) authNavBar.style.display = "none";
 
 function switchToAuthenticatedNavBar(isAuth) {
     if (!isAuth) return;
