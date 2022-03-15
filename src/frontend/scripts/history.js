@@ -72,7 +72,7 @@ function populateTable(data) {
 
 document.addEventListener("DOMContentLoaded", function() {
     // Runs on load to populate the address field.
-    fetch('http://localhost:8000/api/quote', {
+    fetch('http://localhost:8080/api/quote', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', 
         cache: 'no-cache', 

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
     // Runs on load to populate the address field.
-    fetch('http://localhost:8000/api/profile', {
+    fetch('http://localhost:8080/api/profile', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', 
         cache: 'no-cache', 
@@ -48,6 +48,14 @@ function populateResultFields(data) {
 
     unitPriceElement.innerHTML = data.suggestedPrice;
     totalPriceElement.innerHTML = data.totalPrice;
+
+    unitPriceElement.classList.add('animate');
+    totalPriceElement.classList.add('animate');
+
+    setTimeout(() => {
+        unitPriceElement.classList.remove('animate');
+        totalPriceElement.classList.remove('animate');
+    }, 1000);
 }
 
 function sendFormData() {
@@ -56,7 +64,7 @@ function sendFormData() {
         gallonsRequested: document.getElementById('gallons-requested').value,
     })
 
-    fetch('http://localhost:8000/api/quote', {
+    fetch('http://localhost:8080/api/quote', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', 
         cache: 'no-cache', 
